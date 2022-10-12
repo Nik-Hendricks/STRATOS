@@ -8,29 +8,53 @@
 
 import WindowManager from '/js/WindowManager.js';
 import ActivityManager from '/js/ActivityManager.js';
+import NE_FS from '/js/NE_FS.js';
 
 const STRATOS = {
     WindowManager: WindowManager,
     ActivityManager: ActivityManager,
+    FS: NE_FS,
+    registered_apps:[],
 
-    start_applet(){
-        
+    start_applet(type, props){
+        var window_data = {}
+        if(type == 'custom'){
+            window_data = props;
+        }
+
+        console.log(this.registered_apps.indexOf(type))
+
+        var win = WindowManager.new_window(window_data);
+        ActivityManager.new_activity({window: win})
+        console.log(ActivityManager.activities)
     },
 
     stop_applet(){
 
     },
 
-    startup(){
+    register_app(){
 
     },
 
+    unregister_app(){
+
+    },
+
+    startup(){
+        //get users desktop
+
+    },
+
+    get_registered_apps(){
+
+    }
 
 
 }
 
-const StratosSingleton = WStratos;
+const STRATOSSingleton = STRATOS;
 
-window.WM = StratosSingleton // web
+window.STRATOS = STRATOSSingleton // web
 
-export default window.WM // this will initialise the singleton instantly
+export default window.STRATOS // this will initialise the singleton instantly

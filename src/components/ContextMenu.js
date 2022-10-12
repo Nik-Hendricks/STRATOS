@@ -11,7 +11,6 @@ class ContextMenu extends Component {
 
         window.onclick = (ev) => {
             var show = false;
-            console.log(ev)
             for(var key in ev.path){
                 if(String(ev.path[key].nodeName) != '#document' && String(ev.path[key].nodeName) != 'undefined'){
                     if(ev.path[key].tagName.toLowerCase() == 'context-menu'){

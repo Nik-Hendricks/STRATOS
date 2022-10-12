@@ -7,7 +7,6 @@ class CustomWindow extends Component{
     }
 
     connectedCallback(){
-        console.log(this.props)
         this.style.position = 'absolute';
         this.x = this.props.x !== undefined ? this.props.x : '0px'; 
         this.y = this.props.y !== undefined ? this.props.y : '0px';
@@ -16,16 +15,40 @@ class CustomWindow extends Component{
         this.html = this.props.html !== undefined ? this.props.html : `Empty Window`;
         this.background = 'var(--theme-card-color)';
         this.borderRadius = 'var(--global-border-radius)';
+
+        this.title_bar_button_height = '12px'
+        this.title_bar_height = '25px'
+        this.title_bar_font_size = '14px'
         this.text = this.props.text !== undefined ? this.props.text : 'New Window';
 
-        this.title_bar = window.Builder.createElement('card-item', {nomargin: true}, {borderBottomRightRadius: '0px', borderBottomLeftRadius:'0px', padding: '0px', margin: '0px', background: 'black', height: '25px'})
-        this.title_exit = window.Builder.createElement('span', {}, {float: 'right', height: '15px', width: '15px', margin:'5px', borderRadius:'7.5px', background:'red'})
-        this.title_maximize = window.Builder.createElement('span', {}, {float: 'right', height: '15px', width: '15px', margin:'5px', borderRadius:'7.5px', background:'yellow'})
-        this.title_minimize = window.Builder.createElement('span', {}, {float: 'right', height: '15px', width: '15px', margin:'5px', borderRadius:'7.5px', background:'green'})
-        this.title_text = window.Builder.createElement('span', {}, {zIndex: '2', position: 'absolute', width: '100%', height: '100%', marginTop:'5px', textAlign: 'center', color: 'var(--theme-text-primary-color)'})
+        var title_bar_button_margin = `calc(calc(${this.title_bar_height} - ${this.title_bar_button_height}) / 2)`
+        var title_bar_text_margin = `calc(calc(${this.title_bar_height} - ${this.title_bar_font_size}) / 2)`
+        var title_bar_button_spacing = '5px'
+
+        this.title_bar = window.Builder.createElement('card-item', {nomargin: true}, {borderBottomRightRadius: '0px', borderBottomLeftRadius:'0px', padding: '0px', margin: '0px', background: 'black', height: this.title_bar_height})
+        this.title_exit = window.Builder.createElement('div', {}, {float: 'right', height: this.title_bar_button_height, width: this.title_bar_button_height,marginRight: title_bar_button_spacing,  marginTop: title_bar_button_margin, borderRadius:`calc(${this.title_bar_button_height} / 2)`, background:'red'})
+        this.title_maximize = window.Builder.createElement('div', {}, {float: 'right', height: this.title_bar_button_height, width: this.title_bar_button_height,marginRight: title_bar_button_spacing,  marginTop: title_bar_button_margin, borderRadius: `calc(${this.title_bar_button_height} / 2)`, background:'yellow'})
+        this.title_minimize = window.Builder.createElement('div', {}, {float: 'right', height: this.title_bar_button_height, width: this.title_bar_button_height,marginRight: title_bar_button_spacing,  marginTop: title_bar_button_margin, borderRadius: `calc(${this.title_bar_button_height} / 2)`, background:'green'})
+        this.title_text = window.Builder.createElement('span', {}, {position: 'absolute', width: '100%', height: '100%', fontSize: this.title_bar_font_size, marginTop: title_bar_text_margin, textAlign: 'center', color: 'var(--theme-text-primary-color)'})
         this.title_text.innerHTML = this.text;
-        this.window_content = window.Builder.createElement("card-item", {nomargin: true}, {margin: '0px', background:'transparent', height:`calc(100% - ${this.title_bar.getBoundingClientRect().height}px)`, padding: '0px'})
-        this.title_bar.append(this.title_exit, this.title_maximize, this.title_minimize, this.title_text)
+        this.window_content = window.Builder.createElement("card-item", {nomargin: true}, {margin: '0px', background:'transparent', height:`calc(100% - ${this.title_bar.getBoundingClientRect().height}px)`})
+        
+        var e = this.title_bar.getElementsByTagName('div');
+        console.log(e)
+        
+
+        //this.title_bar.getElementsByTagName('div')[2].onclick = () {
+        //    console.log('asdf')
+        //}
+
+        this.title_maximize.onclick = () => {
+
+        }
+
+        this.title_minimize.onclick = () => {
+
+        }
+
 
 
         this.mouse_state = false;
@@ -80,6 +103,7 @@ class CustomWindow extends Component{
         })
 
         this.update();
+        this.title_bar.append(this.title_text, this.title_exit, this.title_maximize, this.title_minimize)
         this.append(this.title_bar, this.window_content)
         this.resizeComponents(true);
     }
@@ -92,22 +116,7 @@ class CustomWindow extends Component{
         this.style.background = this.background;
         this.style.borderRadius = this.borderRadius;
         this.window_content.innerHTML = this.html;
-        this.resizeComponents(true);
-
-        //this.window_corners = 
-
-        //an array of each corners hoverspace
-        //this.window_corners = [];
-
-        //so here we will run all of these corners back through get_corners()
-        //but we will subtract the x and y by our desired radius
-        //the width and height will be the desired diameter
-        //var size = 40;
-        //var corners = this.get_corners(x, y, width, height)
-        //corners.forEach(corner => {
-        //    this.window_corners.push(this.get_corners(corner[0] - (size / 2), corner[1] - (size / 2), size, size))
-        //})
-
+        this.resizeComponents(true)
     }
 
     set_position(x, y){
@@ -123,6 +132,10 @@ class CustomWindow extends Component{
         var corner3 = [x + width, y + height]
         var corner4 = [x, y + height]
         return [corner1, corner2, corner3, corner4]
+    }
+
+    close(){
+        console.log(window.STRATOS)
     }
 }
 window.customElements.define('custom-window', CustomWindow);

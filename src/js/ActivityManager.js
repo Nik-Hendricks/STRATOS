@@ -1,10 +1,23 @@
-import WindowManager from '/js/WindowManager.js'
+class Activity{
+    constructor(props){
+        var props = (props !== undefined) ? props : {};
+        console.log(props)
+        this.type = (props.type !== undefined) ? props.type : 'window';
+        this.id = (props.id !== undefined) ? props.id : 'create_id_here()' ;
+        this.headless = (props.headless !== undefined) ? props.headless : false;
+        this.window = (props.window !== undefined) ? props.window : false;    
+        ActivityManager.activities[this.id] = this;
+    }
+}
 
 const ActivityManager = {
     activities:[],
-    WindowManager: WindowManager,
-    new_activity(){
-        
+    new_activity(props){
+        new Activity(props)
+    },
+    
+    close_activity(id){
+        this.activities[id].window.close();
     }
 }
 

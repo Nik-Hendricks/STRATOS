@@ -40,8 +40,7 @@ import API2 from '/js/API2.js'
 import ViewManager from '/js/viewManager.js';
 import Builder from '/js/Builder.js';
 import Utils from '/js/Utils.js';
-import FS from '/js/NE_FS.js'
-import ActivityManager from '/js/ActivityManager.js';
+import STRATOS from '/js/STRATOS.js';
 
 
 window.onload = () => {
@@ -50,11 +49,26 @@ window.onload = () => {
     var desktop_task_bar = new DesktopTaskBar();
     var context_menu = new ContextMenu();
 
+    var data = {title: 'test',
+    width:'550px',
+    height: '500px',
+    x: '50px', 
+    y: '50px',
+    html: ``}
+
+    STRATOS.start_applet('custom', data)
 
     var newShortcut = window.Builder.createElement('custom-input', {type: 'button', text: 'New Shortcut', icon: 'info', nomargin: true}, {borderRadius: '0px', margin: '0px', height: '30px', lineHeight: '30px', fontSize: '7px'})
     newShortcut.onclick = (e) => {
         
-        window.ActivityManager.WindowManager.new_window({title: 'test', width:'400px', height: '250px', x: '50px', y: '50px',  context_items: (newShortcut), html: `<custom-input type="button" icon="info" text="test"></custom-input`})
+        var attr = {title: 'test',
+        width:'250px',
+        height: '100px',
+        x: '50px', 
+        y: '50px',
+        html: `<custom-input type="button" icon="info" text="test"></custom-input`}
+
+        STRATOS.start_applet('custom', attr);
         
     }
     document.body.context_html = (newShortcut);

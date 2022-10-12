@@ -3,7 +3,9 @@ import {CustomWindow} from '/components/CustomWindow.js'; //consider naming Desk
 const WindowManager = {
     windows: [],
     new_window(props){
-        document.body.append(new CustomWindow(props))
+        var win = new CustomWindow(props);
+        document.body.append(win)
+        return win;
     }
 }
 
